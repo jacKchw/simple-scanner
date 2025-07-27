@@ -32,3 +32,9 @@ import "./main";
 console.log(
   '👋 This message is being logged by "renderer.js", included via webpack'
 );
+
+// disable right click
+window.addEventListener("contextmenu", (e) => {
+  e.preventDefault();
+  document.getElementById("idInput").focus();
+});
