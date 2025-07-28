@@ -4,9 +4,9 @@
 import { contextBridge, ipcRenderer } from "electron/renderer";
 
 export interface ElectronAPI {
-  saveFile: () => Promise<string>;
+  saveFile: (data: string[]) => Promise<string>;
 }
 
 contextBridge.exposeInMainWorld("electronAPI", {
-  saveFile: () => ipcRenderer.invoke("dialog:saveFile"),
+  saveFile: (data: string[]) => ipcRenderer.invoke("dialog:saveFile", data),
 });

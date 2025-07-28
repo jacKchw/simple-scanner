@@ -35,8 +35,7 @@ function App() {
 
   const exportFile = async () => {
     if (ids.length <= 0) return;
-    const filePaths = await window.electronAPI.saveFile();
-    console.log(filePaths);
+    await window.electronAPI.saveFile(ids);
   };
 
   const deleteId = (targetIndex: number) => {

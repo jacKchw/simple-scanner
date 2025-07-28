@@ -45,6 +45,7 @@
   },
   "dependencies": {
     "electron-squirrel-startup": "^1.0.1",
+    "node-xlsx": "^0.24.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
   }
