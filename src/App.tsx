@@ -7,10 +7,12 @@ import {
 } from "react";
 import styles from "./App.module.css";
 import DeleteIcon from "./components/DeleteIcon";
+import { LoadingIndicator } from "./components/LoadingIndicator";
 
 function App() {
   const inputRef = useRef<HTMLInputElement>(null);
   const [ids, setIds] = useState<string[]>([]);
+  const [loading, setLoading] = useState(false);
 
   //   focus on idInput
   const focus = () => {
@@ -35,7 +37,9 @@ function App() {
 
   const exportFile = async () => {
     if (ids.length <= 0) return;
+    setLoading(true);
     await window.electronAPI.saveFile(ids);
+    setLoading(false);
   };
 
   const deleteId = (targetIndex: number) => {
@@ -52,6 +56,7 @@ function App() {
 
   return (
     <div className={styles.container} onClick={focus} onMouseDown={focus}>
+      {loading && <LoadingIndicator />}
       <div className={styles.idSection}>
         <input
           className={styles.idInput}
