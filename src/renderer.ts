@@ -29,12 +29,20 @@
 import "./index.css";
 import "./main";
 
+import { ElectronAPI } from "./preload";
+
+declare global {
+  interface Window {
+    electronAPI: ElectronAPI;
+  }
+}
+
 console.log(
   '👋 This message is being logged by "renderer.js", included via webpack'
 );
 
 // disable right click
-window.addEventListener("contextmenu", (e) => {
+window.addEventListener("contextmenu", async (e) => {
   e.preventDefault();
   document.getElementById("idInput").focus();
 });

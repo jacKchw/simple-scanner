@@ -33,8 +33,10 @@ function App() {
     inputRef.current.value = "";
   };
 
-  const exportFile = () => {
-    // todo
+  const exportFile = async () => {
+    if (ids.length <= 0) return;
+    const filePaths = await window.electronAPI.saveFile();
+    console.log(filePaths);
   };
 
   const deleteId = (targetIndex: number) => {
@@ -80,7 +82,9 @@ function App() {
       <div className={styles.sideSection}>
         <div>Amount: {ids.length}</div>
         <button onClick={reset}>Reset</button>
-        <button onClick={exportFile}>Export</button>
+        <button id="exportBtn" onClick={exportFile}>
+          Export
+        </button>
       </div>
     </div>
   );
