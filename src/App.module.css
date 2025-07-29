@@ -10,7 +10,7 @@
   font-size: 1.6rem;
 }
 
-.idSection {
+.recordSection {
   width: 90%;
   border: 1px gray solid;
  overflow-x: hidden;
@@ -23,12 +23,12 @@
   width: 150px;
 }
 
-.idPanel{
+.recordPanel{
     overflow-y: scroll;
     flex-grow: 1;
 }
 
-.idInput {
+.recordInput {
   width: 100%;
   border-left: hidden;
   border-right: hidden;
@@ -41,25 +41,25 @@
   padding-right: .4rem;
 }
 
-.idPanelItem{
+.recordPanelItem{
     display: flex;
     flex-direction: row-reverse;
     
 }
-.idPanelItem>div{
+.recordPanelItem>div{
     padding-left: .4rem;
     padding-right: .4rem;
     flex-grow:1;
 }
 
-.idPanelItem:hover, .idPanelItem:hover .idPanelItem>button{
+.recordPanelItem:hover, .recordPanelItem:hover .recordPanelItem>button{
   color: white;
   background-color: rgb(91, 111, 219);
   fill:white;
 }
 
 
-.idPanelItem>button{
+.recordPanelItem>button{
     background: none;
     border: none;
     margin: auto;
@@ -68,6 +68,6 @@
 }
 
 
-.idPanelItem:hover button{
+.recordPanelItem:hover button{
   fill:white;
 }

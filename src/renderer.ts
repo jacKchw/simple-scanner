@@ -44,5 +44,5 @@ console.log(
 // disable right click
 window.addEventListener("contextmenu", async (e) => {
   e.preventDefault();
-  document.getElementById("idInput").focus();
+  document.getElementById("recordInput").focus();
 });
