@@ -46,6 +46,9 @@ const recordReducer = (state: string[], action: RecordAction): string[] => {
 
 function App() {
   const inputRef = useRef<HTMLInputElement>(null);
+  const recordPanelRef = useRef<HTMLInputElement>(null);
+  const recordAmount = useRef<number>(0);
+
   const [records, recordsDispatch] = useReducer<
     string[],
     string[],
@@ -57,6 +60,7 @@ function App() {
     if (prev) return prev;
     return [];
   });
+
   const [loading, setLoading] = useState(false);
 
   //   focus on recordInput
@@ -73,8 +77,8 @@ function App() {
     if (newValue === "") return;
 
     // update records
-    recordsDispatch({ type: "add", value: newValue });
     inputRef.current.value = "";
+    recordsDispatch({ type: "add", value: newValue });
   };
 
   const exportFile = async () => {
@@ -88,6 +92,17 @@ function App() {
   useEffect(() => {
     focus();
   }, []);
+
+  useEffect(() => {
+    // scroll to the bottom only when record is added
+    if (
+      recordPanelRef.current !== null &&
+      recordAmount.current < records.length
+    ) {
+      recordPanelRef.current.scrollIntoView();
+    }
+    recordAmount.current = records.length;
+  }, [records]);
 
   return (
     <div className={styles.container} onClick={focus} onMouseDown={focus}>
@@ -118,6 +133,7 @@ function App() {
               </div>
             );
           })}
+          <div ref={recordPanelRef}></div>
         </div>
       </div>
       <div className={styles.sideSection}>
