@@ -25,6 +25,7 @@ type ClearAllRecordAction = {
 type RecordAction = AddRecordAction | DeleteRecordAction | ClearAllRecordAction;
 
 const recordReducer = (state: string[], action: RecordAction): string[] => {
+  // create new records
   let newRecords: string[] = [];
   switch (action.type) {
     case "add":
@@ -37,6 +38,7 @@ const recordReducer = (state: string[], action: RecordAction): string[] => {
       break;
   }
 
+  // save records into localstorage
   const recordJson = JSON.stringify(newRecords);
   localStorage.setItem("records", recordJson);
   return newRecords;
@@ -49,6 +51,7 @@ function App() {
     string[],
     [RecordAction]
   >(recordReducer, [], () => {
+    // get records from localstorage as initial state
     const recordJson = localStorage.getItem("records");
     const prev = JSON.parse(recordJson);
     if (prev) return prev;
@@ -65,12 +68,13 @@ function App() {
 
   const handleKey: KeyboardEventHandler = (e) => {
     if (loading) return;
-    if (e.code == "Enter") {
-      const newValue = inputRef.current.value;
-      if (newValue === "") return;
-      recordsDispatch({ type: "add", value: newValue });
-      inputRef.current.value = "";
-    }
+    if (e.code !== "Enter") return;
+    const newValue = inputRef.current.value;
+    if (newValue === "") return;
+
+    // update records
+    recordsDispatch({ type: "add", value: newValue });
+    inputRef.current.value = "";
   };
 
   const exportFile = async () => {
