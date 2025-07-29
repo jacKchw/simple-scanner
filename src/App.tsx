@@ -37,6 +37,7 @@ function App() {
 
   const exportFile = async () => {
     if (ids.length <= 0) return;
+    if (loading) return;
     setLoading(true);
     await window.electronAPI.saveFile(ids);
     setLoading(false);
@@ -86,7 +87,7 @@ function App() {
       <div className={styles.sideSection}>
         <div>Amount: {ids.length}</div>
         <button onClick={reset}>Reset</button>
-        <button id="exportBtn" onClick={exportFile}>
+        <button id="exportBtn" onClick={exportFile} disabled={loading}>
           Export
         </button>
       </div>
