@@ -1,7 +1,7 @@
 import {
-  InputEventHandler,
   KeyboardEventHandler,
   useEffect,
+  useReducer,
   useRef,
   useState,
 } from "react";
@@ -9,9 +9,51 @@ import styles from "./App.module.css";
 import DeleteIcon from "./components/DeleteIcon";
 import { LoadingIndicator } from "./components/LoadingIndicator";
 
+type AddRecordAction = {
+  type: "add";
+  value: string;
+};
+
+type DeleteRecordAction = {
+  type: "delete";
+  index: number;
+};
+type ClearAllRecordAction = {
+  type: "clearAll";
+};
+
+type RecordAction = AddRecordAction | DeleteRecordAction | ClearAllRecordAction;
+
+const recordReducer = (state: string[], action: RecordAction): string[] => {
+  let newRecords: string[] = [];
+  switch (action.type) {
+    case "add":
+      newRecords = [...state, action.value];
+      break;
+    case "delete":
+      newRecords = state.filter((_, index) => {
+        return index !== action.index;
+      });
+      break;
+  }
+
+  const recordJson = JSON.stringify(newRecords);
+  localStorage.setItem("records", recordJson);
+  return newRecords;
+};
+
 function App() {
   const inputRef = useRef<HTMLInputElement>(null);
-  const [records, setRecords] = useState<string[]>([]);
+  const [records, recordsDispatch] = useReducer<
+    string[],
+    string[],
+    [RecordAction]
+  >(recordReducer, [], () => {
+    const recordJson = localStorage.getItem("records");
+    const prev = JSON.parse(recordJson);
+    if (prev) return prev;
+    return [];
+  });
   const [loading, setLoading] = useState(false);
 
   //   focus on recordInput
@@ -22,17 +64,13 @@ function App() {
   };
 
   const handleKey: KeyboardEventHandler = (e) => {
+    if (loading) return;
     if (e.code == "Enter") {
       const newValue = inputRef.current.value;
       if (newValue === "") return;
-      setRecords((prev) => [...prev, newValue]);
+      recordsDispatch({ type: "add", value: newValue });
       inputRef.current.value = "";
     }
-  };
-
-  const reset = () => {
-    setRecords([]);
-    inputRef.current.value = "";
   };
 
   const exportFile = async () => {
@@ -41,14 +79,6 @@ function App() {
     setLoading(true);
     await window.electronAPI.saveFile(records);
     setLoading(false);
-  };
-
-  const deleteRecord = (targetIndex: number) => {
-    setRecords((prev) => {
-      return prev.filter((_, index) => {
-        return index !== targetIndex;
-      });
-    });
   };
 
   useEffect(() => {
@@ -66,6 +96,7 @@ function App() {
           ref={inputRef}
           autoFocus
           onKeyDown={handleKey}
+          disabled={loading}
         />
         <div className={styles.recordPanel}>
           {records.map((record, index) => {
@@ -73,8 +104,9 @@ function App() {
               <div key={index} className={styles.recordPanelItem}>
                 <button
                   onClick={() => {
-                    deleteRecord(index);
+                    recordsDispatch({ type: "delete", index: index });
                   }}
+                  disabled={loading}
                 >
                   <DeleteIcon />
                 </button>
@@ -86,7 +118,14 @@ function App() {
       </div>
       <div className={styles.sideSection}>
         <div>Amount: {records.length}</div>
-        <button onClick={reset}>Reset</button>
+        <button
+          onClick={() => {
+            recordsDispatch({ type: "clearAll" });
+            inputRef.current.value = "";
+          }}
+        >
+          Reset
+        </button>
         <button id="exportBtn" onClick={exportFile} disabled={loading}>
           Export
         </button>
