@@ -6,9 +6,9 @@ import {
   useState,
 } from "react";
 import styles from "./App.module.css";
-import DeleteIcon from "./components/DeleteIcon";
-import { LoadingIndicator } from "./components/LoadingIndicator";
-import ExportIcon from "./components/ExportIcon";
+import DeleteIcon from "./components/icons/DeleteIcon";
+import { LoadingIndicator } from "./components/LoadingIndicator/LoadingIndicator";
+import ExportIcon from "./components/icons/ExportIcon";
 import ClearAllDialog from "./components/ClearAllDialog/ClearAllDialog";
 
 type AddRecordAction = {

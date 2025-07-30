@@ -1,5 +1,5 @@
-import AlertIcon from "../AlertIcon";
-import DeleteIcon from "../DeleteIcon";
+import AlertIcon from "../icons/AlertIcon";
+import DeleteIcon from "../icons/DeleteIcon";
 import styles from "./styles.module.css";
 
 interface ClearAllDialogProp {
