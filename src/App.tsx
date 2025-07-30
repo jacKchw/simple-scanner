@@ -8,6 +8,8 @@ import {
 import styles from "./App.module.css";
 import DeleteIcon from "./components/DeleteIcon";
 import { LoadingIndicator } from "./components/LoadingIndicator";
+import ExportIcon from "./components/ExportIcon";
+import ClearAllDialog from "./components/ClearAllDialog/ClearAllDialog";
 
 type AddRecordAction = {
   type: "add";
@@ -62,6 +64,7 @@ function App() {
   });
 
   const [loading, setLoading] = useState(false);
+  const [showDialog, setShowDialog] = useState(false);
 
   //   focus on recordInput
   const focus = () => {
@@ -104,9 +107,27 @@ function App() {
     recordAmount.current = records.length;
   }, [records]);
 
+  useEffect(() => {
+    if (!showDialog) {
+      focus();
+    }
+  }, [showDialog]);
+
   return (
     <div className={styles.container} onClick={focus} onMouseDown={focus}>
       {loading && <LoadingIndicator />}
+      {showDialog && (
+        <ClearAllDialog
+          onClickConfirm={() => {
+            recordsDispatch({ type: "clearAll" });
+            inputRef.current.value = "";
+            setShowDialog(false);
+          }}
+          onClickBack={() => {
+            setShowDialog(false);
+          }}
+        />
+      )}
       <div className={styles.recordSection}>
         <input
           className={styles.recordInput}
@@ -115,7 +136,7 @@ function App() {
           ref={inputRef}
           autoFocus
           onKeyDown={handleKey}
-          disabled={loading}
+          disabled={loading || showDialog}
         />
         <div className={styles.recordPanel}>
           {records.map((record, index) => {
@@ -139,15 +160,24 @@ function App() {
       <div className={styles.sideSection}>
         <div>Amount: {records.length}</div>
         <button
+          className={styles.exportBtn}
+          id="exportBtn"
+          onClick={exportFile}
+          disabled={loading}
+        >
+          <ExportIcon />
+          Export
+        </button>
+        <button
+          className={styles.clearAllBtn}
           onClick={() => {
-            recordsDispatch({ type: "clearAll" });
-            inputRef.current.value = "";
+            if (records.length > 0) {
+              setShowDialog(true);
+            }
           }}
         >
-          Reset
-        </button>
-        <button id="exportBtn" onClick={exportFile} disabled={loading}>
-          Export
+          <DeleteIcon />
+          Clear All
         </button>
       </div>
     </div>

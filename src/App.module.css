@@ -4,14 +4,15 @@
   height: 100vh;
   display: flex;
 
-  justify-content: space-around;
+  justify-content: space-evenly;
   padding: 10px;
   box-sizing: border-box;
   font-size: 1.6rem;
+  gap:10px;
 }
 
 .recordSection {
-  width: 90%;
+  width: 80%;
   border: 1px gray solid;
  overflow-x: hidden;
  height: 100%;
@@ -19,9 +20,6 @@
  flex-direction: column;
 }
 
-.sideSection{
-  width: 150px;
-}
 
 .recordPanel{
     overflow-y: scroll;
@@ -50,12 +48,13 @@
     padding-left: .4rem;
     padding-right: .4rem;
     flex-grow:1;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 .recordPanelItem:hover, .recordPanelItem:hover .recordPanelItem>button{
-  color: white;
-  background-color: rgb(91, 111, 219);
-  fill:white;
+  background-color: hsl(235, 100%, 95%);
 }
 
 
@@ -64,10 +63,56 @@
     border: none;
     margin: auto;
     cursor: pointer;
-    fill: black;
+    fill: hsl(0, 0%, 47%);
 }
 
+.recordPanelItem>button>svg{
+  width:25px
+}
 
-.recordPanelItem:hover button{
-  fill:white;
+.sideSection{
+  width: 200px;
+  display:flex;
+  flex-direction: column;
+  gap: 40px;
+}
+.sideSection>button{
+  height:60px;
+  font-size: 1.6rem;
+  padding:0 20px 0 20px;
+  display: flex;
+  border:none;
+  align-items: center;
+  gap:10px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.clearAllBtn{
+  background-color: hsl(0, 100%, 85%);
+  color: hsl(0, 100%, 20%);
+  fill: hsl(0, 100%, 20%);
+}
+.clearAllBtn>svg{
+  width: 30px;
+}
+
+.clearAllBtn:hover{
+  background-color: hsl(0, 100%, 90%);
+  color: hsl(0, 100%, 25%);
+  fill: hsl(0, 100%, 25%);
+  }
+
+.exportBtn{
+  background-color: hsl(240, 100%, 85%);
+  color: hsl(240, 98%, 20%);
+  fill: hsl(240, 98%, 20%);
+}
+.exportBtn:hover{
+  background-color: hsl(240, 100%, 90%);
+  color: hsl(240, 98%, 25%);
+  fill: hsl(240, 98%, 25%);
+}
+.exportBtn>svg{
+  width: 30px;
 }
