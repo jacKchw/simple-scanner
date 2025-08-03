@@ -1,6 +1,6 @@
 {
-  "name": "simple-scanner2",
-  "productName": "simple-scanner2",
+  "name": "simple-scanner",
+  "productName": "Simple Scanner",
   "version": "1.0.0",
   "description": "My Electron application description",
   "main": ".webpack/main",
