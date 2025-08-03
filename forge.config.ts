@@ -18,12 +18,10 @@ const config: ForgeConfig = {
   rebuildConfig: {},
   makers: [
     new MakerSquirrel({}),
-    new MakerZIP({}, ["darwin"]),
     new MakerDeb({}),
     {
       name: "@electron-forge/maker-dmg",
       config: {
-        background: "./assets/dmg-background.png",
         format: "ULFO",
       },
     },
