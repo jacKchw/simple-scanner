@@ -16,6 +16,15 @@ const config: ForgeConfig = {
   rebuildConfig: {},
   makers: [
     new MakerSquirrel({}),
+    {
+      name: "@electron-forge/maker-deb",
+      config: {
+        options: {
+          maintainer: "Jack Chan",
+          homepage: "http://jack-chan.vercel.app/",
+        },
+      },
+    },
     new MakerDeb({}),
     {
       name: "@electron-forge/maker-dmg",
