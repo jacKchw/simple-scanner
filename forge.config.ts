@@ -1,6 +1,6 @@
 import type { ForgeConfig } from "@electron-forge/shared-types";
 import { MakerSquirrel } from "@electron-forge/maker-squirrel";
-import { MakerDeb } from "@electron-forge/maker-deb";
+import { MakerDebConfig } from "@electron-forge/maker-deb";
 import { AutoUnpackNativesPlugin } from "@electron-forge/plugin-auto-unpack-natives";
 import { WebpackPlugin } from "@electron-forge/plugin-webpack";
 import { FusesPlugin } from "@electron-forge/plugin-fuses";
@@ -12,6 +12,7 @@ import { rendererConfig } from "./webpack.renderer.config";
 const config: ForgeConfig = {
   packagerConfig: {
     asar: true,
+    executableName: "simple-scanner",
   },
   rebuildConfig: {},
   makers: [
@@ -23,9 +24,8 @@ const config: ForgeConfig = {
           maintainer: "Jack Chan",
           homepage: "http://jack-chan.vercel.app/",
         },
-      },
+      } as MakerDebConfig,
     },
-    new MakerDeb({}),
     {
       name: "@electron-forge/maker-dmg",
       config: {
