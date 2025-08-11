@@ -43,7 +43,13 @@ const handleFileSave = async (e: IpcMainInvokeEvent, data: string[]) => {
   const year = today.getFullYear();
   const month = (today.getMonth() + 1).toString().padStart(2, "0");
   const day = today.getDate();
-  const defaultFileName = `Record_${year}${month}${day}.xlsx`;
+  const hour = today.getHours();
+  const minute = today.getMinutes();
+
+  const suffix = process.env.FILLESUFFIX || "Record";
+  console.log(suffix);
+
+  const defaultFileName = `${suffix}_${year}${month}${day}_${hour}${minute}.xlsx`;
 
   const { canceled, filePath } = await dialog.showSaveDialog({
     defaultPath: path.join(defaultDirectory, defaultFileName),
