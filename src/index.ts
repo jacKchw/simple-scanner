@@ -79,6 +79,12 @@ const createWindow = (): void => {
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
     },
   });
+
+  mainWindow.on("show", () => {
+    // macos doesn't automatically focus after re-create a window on activate
+    mainWindow.focus();
+  });
+
   mainWindow.removeMenu();
   mainWindow.maximize();
 
